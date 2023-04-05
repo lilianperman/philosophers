@@ -16,7 +16,12 @@ void	philo_create(t_data *stack)
 	while (i < philo_total)
 	{
 		pthread_create(&(philo[i].thread), NULL, &start_routine, &philo[i]);
-		pthread_join((philo[i].thread), NULL);
+		i++;
+	}
+	i = 0;
+	while (i < philo_total)
+	{
+		pthread_join(philo[i].thread, NULL);
 		i++;
 	}
 	pthread_create(&monitor, NULL, &checker, stack);

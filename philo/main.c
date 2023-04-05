@@ -16,13 +16,24 @@ void	feed_stack(int argc, char **argv)
 		stack.time_to_eat = ft_atoi(argv[3]);
 		stack.time_to_sleep = ft_atoi(argv[4]);
 		stack.nbr_of_meals = -1;
-		if (argc == 6)
+		stack.is_dead = 0;
+		stack.full = 0;
+		stack.start_time = 0;
+		if (stack.time_till_death < 60 || stack.time_to_eat < 60 || stack.time_to_sleep < 60 || stack.philo_total > 200 || stack.philo_total < 1)
+			return ;
+		if (argv[5])
+		{
 			stack.nbr_of_meals = ft_atoi(argv[5]);
+			if (stack.nbr_of_meals <= 0)
+				return ;
+		}
 		else
 			stack.nbr_of_meals = -1;
-		if (!(stack.fork == malloc(sizeof(pthread_mutex_t) * philo_total)))
+		stack.fork = malloc(sizeof(pthread_mutex_t) * philo_total);
+		if (!stack.fork)
 			return ;
-		if (!(stack.philo == malloc(sizeof(t_philo) * philo_total)))
+		stack.philo = malloc(sizeof(t_philo) * philo_total);
+		if (!stack.philo)
 			return ;
 		philo_init(&stack);
 	}
