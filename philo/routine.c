@@ -7,7 +7,7 @@ void	put_philo_to_sleep(t_philo *philo, unsigned long time_to_sleep)
 	unsigned long time_now;
 
 	time_now = get_time();
-	while ((get_time() - time_now) < time_to_sleep)
+	while (get_time() - time_now < time_to_sleep)
 	{
 		if (philo->stack->is_dead == 1)
 			break;

@@ -9,7 +9,10 @@ int	check_vitals(t_philo *philo, t_data *stack)
 	result = 0;
 	pthread_mutex_lock(&philo->stack->finish);
 	if (philo->stack->is_dead == 1)
+	{
 		result = 1;
+		return (result);
+	}
 	else if (stack->nbr_of_meals == philo->meal_count)
 		stack->full++;
 	pthread_mutex_unlock(&philo->stack->finish);
@@ -49,14 +52,12 @@ void	*checker(void *philo)
 			pthread_mutex_lock(&stack->finish);
 			printf("all philosophers are full");
 			stack->is_dead = 1;
-			//é possível que eu tenha que fazer isso aqui no lugar da de "stack->is_dead = 1": stack->philo->stack->is_dead = 1;
 			pthread_mutex_unlock(&stack->finish);
 			break;
 		}
-		if ((time_now(stack) - stack->philo[i].last_meal) >= (unsigned long) stack->time_till_death)
-		//é possível que no lugar de time_now eu tenha que fazer o get_time - start_time.
+		if (((get_time() - stack->start_time) - stack->philo[i].last_meal) >= (unsigned long) stack->time_till_death)
 		{
-			printf("%lu philosopher %d died.\n", time_now(stack), i + 1);
+			printf("%lu philosopher %d died.\n", (get_time() - stack->start_time), i + 1);
 			pthread_mutex_lock(&stack->finish);
 			stack->is_dead = 1;
 			pthread_mutex_unlock(&stack->finish);
