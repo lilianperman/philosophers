@@ -8,13 +8,13 @@ O problema envolve um número philo_total (este número entra como um argumento)
 
 A simulação termina quando um filósofo morre de fome ou quando todos os filósofos ficam saciados.
 
--como rodar? 
+-Como rodar? 
 make para fazer a compilação. 
 ./philo + argumentos.
 ex1: ./philo 4 300 100 100
 ex2. ./philo 20 500 100 100 5
 
--argumentos:
+-Argumentos:
 arg 1- philo_total (número de filósofos em volta da mesa)
 arg 2- time_till_starvation em milissegundos (tempo que o filósofo pode ficar sem comer)
 arg 3- time_to_eat em milissegundos (tempo que o filósofo leva para fazer uma refeição)
