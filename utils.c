@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: liperman <liperman@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/26 09:59:24 by liperman          #+#    #+#             */
+/*   Updated: 2023/05/26 12:17:35 by liperman         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 int	philo_is_digit(int argc, char **argv)
@@ -16,7 +28,7 @@ int	philo_is_digit(int argc, char **argv)
 			else if (argv[arg][i] && (argv[arg][i] < 48 || argv[arg][i] > 57))
 			{
 				printf("Error: argument is invalid\n");
-				return(1);
+				return (1);
 			}
 		}
 		i = 0;
@@ -27,7 +39,7 @@ int	philo_is_digit(int argc, char **argv)
 
 int	philo_is_valid(int argc, char **argv)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (i < argc)
@@ -42,10 +54,10 @@ int	philo_is_valid(int argc, char **argv)
 	return (0);
 }
 
-int philo_atoi(char *str)
+int	philo_atoi(char *str)
 {
-	int num;
-	int sign;
+	int	num;
+	int	sign;
 
 	num = 0;
 	sign = 1;
@@ -76,7 +88,7 @@ void	put_message(t_philo *philo, unsigned long time, int id, char *message)
 
 void	clear_mutexes(t_philo *philo, t_data *stack)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	pthread_mutex_destroy(&(stack->block));
@@ -86,4 +98,5 @@ void	clear_mutexes(t_philo *philo, t_data *stack)
 		i++;
 	}
 	free(philo);
+	free(philo->stack->fork);
 }

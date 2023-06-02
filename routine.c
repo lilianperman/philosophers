@@ -1,4 +1,14 @@
-//add 42 header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: liperman <liperman@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/26 09:58:56 by liperman          #+#    #+#             */
+/*   Updated: 2023/05/26 10:42:57 by liperman         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philosophers.h"
 
@@ -7,10 +17,10 @@ void	*feed_philo(t_philo *philo, t_data *stack)
 	if (!(pthread_mutex_lock(&stack->fork[philo->left_fork])))
 	{
 		put_message(philo, time_now(stack), philo->id, "has taken a fork");
-		if(!(pthread_mutex_lock(&stack->fork[philo->right_fork])))
+		if (!(pthread_mutex_lock(&stack->fork[philo->right_fork])))
 		{
 			put_message(philo, time_now(stack), philo->id, "has taken a fork");
-			put_message(philo, time_now(stack), philo->id, "is eating pasta");
+			put_message(philo, time_now(stack), philo->id, "is eating");
 			pthread_mutex_lock(&philo->stack->block);
 			philo[stack->philo->id -1].last_meal = time_now(stack);
 			philo->meal_count++;
@@ -42,7 +52,7 @@ void	*routine(void *philosopher)
 	while (stack->philo_total > 1)
 	{
 		if (check_vitals(philo, stack))
-			break;
+			break ;
 		if (stack->is_dead == 0)
 			feed_philo(philo, stack);
 		put_message(philo, time_now(stack), philo->id, "is sleeping");

@@ -1,4 +1,14 @@
-//add 42 header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   build_and_check.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: liperman <liperman@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/26 09:58:00 by liperman          #+#    #+#             */
+/*   Updated: 2023/05/26 10:43:52 by liperman         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philosophers.h"
 
@@ -30,7 +40,7 @@ void	philo_create(t_data *stack)
 
 void	philo_init(t_data *stack)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < stack->philo_total)
@@ -62,6 +72,13 @@ int	check_vitals(t_philo *philo, t_data *stack)
 	return (0);
 }
 
+void	philo_death(t_data *stack)
+{
+	pthread_mutex_lock(&stack->block);
+	stack->is_dead = 1;
+	pthread_mutex_unlock(&stack->block);
+}
+
 void	*checker(void *stack_struct)
 {
 	int		i;
@@ -73,21 +90,19 @@ void	*checker(void *stack_struct)
 	{
 		if (stack->is_full == stack->philo_total)
 		{
-			pthread_mutex_lock(&stack->block);
 			printf("all philosophers are full");
-			stack->is_dead = 1;
-			pthread_mutex_unlock(&stack->block);
-			break;
+			philo_death(stack);
+			break ;
 		}
-		else if (((get_time() - stack->start_time) - stack->philo[i].last_meal) >= (unsigned long) stack->time_till_starvation)
+		else if (((get_time() - stack->start_time) - stack->philo[i].last_meal) \
+				>= (unsigned long) stack->time_till_starvation)
 		{
-			printf("%lu philosopher %d died.\n", (time_now(stack)), stack->philo[i].id);
-			pthread_mutex_lock(&stack->block);
-			stack->is_dead = 1;
-			pthread_mutex_unlock(&stack->block);
-			break;
+			printf("%lu %d died.\n", (time_now(stack)) \
+					, stack->philo[i].id);
+			philo_death(stack);
+			break ;
 		}
 		i = (i + 1) % stack->philo_total;
 	}
-		return (NULL);
+	return (NULL);
 }
